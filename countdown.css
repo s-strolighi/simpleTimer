@@ -1,0 +1,15 @@
+html {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+body {
+    background: #000000;
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center
+}

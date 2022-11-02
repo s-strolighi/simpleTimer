@@ -1,29 +1,28 @@
-
 let textElem = document.getElementById("clocktext");
 const targetWidth = 0.9;  // Proportion of full screen width
 let curFontSize = 20;  // Do not change
-let countdownDate = new Date(0, 0, 0, 0, 0, 5, 0);
+let countdownDate = new Date(0, 0, 0, 0, 10, 0, 0);
 let timeoutid = 1
 let timerIsGoing = false
 
-function defaultCountDownValue() {countdownDate = new Date(0, 0, 0, 0, 0, 5, 0)}
+function defaultCountDownValue() { countdownDate = new Date(0, 0, 0, 0, 10, 0, 0) }
 
-function displayTime(){
+function displayTime() {
     document.body.style.backgroundColor = "black";
     let s = "";
-    s += (10 > countdownDate.getHours()   ? "0" : "") + countdownDate.getHours()   + ":";
+    s += (10 > countdownDate.getHours() ? "0" : "") + countdownDate.getHours() + ":";
     s += (10 > countdownDate.getMinutes() ? "0" : "") + countdownDate.getMinutes() + ":";
     s += (10 > countdownDate.getSeconds() ? "0" : "") + countdownDate.getSeconds();
     textElem.textContent = s;
 
-    if(countdownDate.getHours() == 0 && countdownDate.getMinutes() == 0 && countdownDate.getSeconds() == 0){
+    if (countdownDate.getHours() == 0 && countdownDate.getMinutes() == 0 && countdownDate.getSeconds() == 0) {
         stopTimeout()
         stopScreen()
         defaultCountDownValue()
     }
 }
 
-function stopScreen(){
+function stopScreen() {
     textElem.textContent = "STOP";
     document.body.style.backgroundColor = "red";
 }
@@ -51,58 +50,58 @@ function updateTextSize() {
     }
 }
 
-function bumpTimer(bumpMilliSeconds){
+function bumpTimer(bumpMilliSeconds) {
     let d = new Date(countdownDate.getTime() + bumpMilliSeconds)
-    d.setSeconds(Math.floor(d.getSeconds()/10)*10)
-    if(new Date(0, 0, 0, 0, 0, 0, 0) >= d){
+    d.setSeconds(Math.floor(d.getSeconds() / 60) * 60)
+    if (new Date(0, 0, 0, 0, 0, 0, 0) >= d) {
         d = new Date(0, 0, 0, 0, 0, 10, 0)
     }
-        countdownDate = d
+    countdownDate = d
     displayTime()
 }
 
 
 // Find the right method, call on correct element fpr fullscreen
 function launchFullScreen(element) {
-    if(element.requestFullScreen) {
-      element.requestFullScreen();
-    } else if(element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if(element.webkitRequestFullScreen) {
-      element.webkitRequestFullScreen();
+    if (element.requestFullScreen) {
+        element.requestFullScreen();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
     }
-  }
+}
 
-window.onkeypress = function(event) {
-    if (event.keyCode == 13 || event.keyCode == 32 ) { //enter or spacebar
-        if(timerIsGoing){
+window.onkeypress = function (event) {
+    if (event.keyCode == 13 || event.keyCode == 32) { //enter or spacebar
+        if (timerIsGoing) {
             stopTimeout();
         }
-        else{
+        else {
             startTimeout()
         }
     }
 }
 
-window.onkeydown = function(event){
+window.onkeydown = function (event) {
     launchFullScreen(document.documentElement); // the whole page
 
     if (event.keyCode == 38 && !timerIsGoing) { //arrow up
-        bumpTimer(10000); //10 sec
+        bumpTimer(60000); //10 sec
     }
 
     if (event.keyCode == 40 && !timerIsGoing) { //arrow down
-        bumpTimer(-10000) //10 sec;
+        bumpTimer(-60000) //10 sec;
     }
 
-    if (event.keyCode == 82 ) { //r for reset
+    if (event.keyCode == 82) { //r for reset
         location.reload()
     }
 
-    if (event.keyCode == 70 ) { //f for fullscreen
+    if (event.keyCode == 70) { //f for fullscreen
         document.exitFullscreen()
     }
- }
+}
 
 
 displayTime()
